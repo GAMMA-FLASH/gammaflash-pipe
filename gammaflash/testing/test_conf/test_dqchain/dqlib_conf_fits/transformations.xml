@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transformations>
+
+  <transformator id="AGILE_transformation" data_type_in="AGILE_test">
+
+    <transformation output_field="PKTIDDFF_samples" type="forward" input_field="PKTIDDFF_samples"/>
+    <transformation output_field="SEGMFLAG_samples" type="forward" input_field="SEGMFLAG_samples"/>
+    <transformation output_field="PKTSEQCN_samples" type="forward" input_field="PKTSEQCN_samples"/>
+
+  </transformator>
+
+</transformations>

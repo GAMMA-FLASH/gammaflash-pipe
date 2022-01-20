@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transformations>
+
+                                      <!-- CAMERA PIPE -->
+
+  <!-- step 1 -->
+  <transformator id="dl1_camera_transformer_step1" data_type_in="lst_dl1_camera">
+
+    <!-- distribution of pixels is computed to reduce the dimension of the data -->
+    <transformation output_field="camera_pixels_charges_distributions" type="distribution" num_samples="1855" bins="50" min="-5" max="50" input_field="camera_pixels_charges" mode="stateful" output_data_shape="array2d" />
+    <!-- these fields are forwarded -->
+    <transformation output_field="camera_sum" type="forward" input_field="camera_sum"/>
+    <transformation output_field="camera_sum_of_squares" type="forward" input_field="camera_sum_of_squares"/>
+  </transformator>
+
+  <!-- step 2 -->
+  <transformator id="dl1_camera_transformer_step2" data_type_in="camera_pipe_step1_out">
+
+    <!-- these fields are forwarded -->
+    <transformation output_field="camera_pixels_charges_distributions" type="forward" input_field="camera_pixels_charges_distributions" />
+    <transformation output_field="camera_sum" type="forward" input_field="camera_sum" />
+
+    <!-- avg and rms of camera pixels cumulative charge -->
+    <transformation output_field="camera_avg" type="avg" input_field="camera_sum" mode="stateless" />
+    <transformation output_field="camera_rms" type="rms" input_field="camera_sum_of_squares" mode="stateless" />
+
+  </transformator>
+
+
+
+
+                                        <!-- HILLAS PIPE -->
+
+  <!-- hillas step 1 -->
+  <transformator id="dl1_hillas_transformer_step1" data_type_in="lst_dl1_parameters">
+
+    <!-- forwarding samples
+    <transformation input_field="intensity_samples"  output_field="intensity_samples" type="forward" />
+    <transformation input_field="kurtosis_samples" output_field="kurtosis_samples" type="forward" />
+    <transformation input_field="length_samples" output_field="length_samples" type="forward" />
+    <transformation input_field="phi_samples" output_field="phi_samples" type="forward" />
+    <transformation input_field="psi_samples" output_field="psi_samples" type="forward" />
+    <transformation input_field="r_samples" output_field="r_samples" type="forward" />
+    <transformation input_field="skewness_samples" output_field="skewness_samples" type="forward" />
+    <transformation input_field="width_samples" output_field="width_samples" type="forward" />
+    <transformation input_field="x_samples" output_field="x_samples" type="forward" />
+    <transformation input_field="y_samples" output_field="y_samples" type="forward" />
+    -->
+
+    <!-- distribution of hillas parameters -->
+    <transformation output_field="intensity_distribution" type="distribution" num_samples="1" bins="10" min="0" max="10000" input_field="intensity_samples" mode="stateless" output_data_shape="array1d" />
+    <transformation output_field="kurtosis_distribution" type="distribution" num_samples="1" bins="10" min="0" max="5" input_field="kurtosis_samples" mode="stateless" output_data_shape="array1d" />
+    <transformation output_field="length_distribution" type="distribution" num_samples="1" bins="10" min="0" max="5" input_field="length_samples" mode="stateless" output_data_shape="array1d" />
+    <transformation output_field="phi_distribution" type="distribution" num_samples="1" bins="10" min="-5" max="5" input_field="phi_samples" mode="stateless" output_data_shape="array1d" />
+    <transformation output_field="psi_distribution" type="distribution" num_samples="1" bins="10" min="-5" max="5" input_field="psi_samples" mode="stateless" output_data_shape="array1d" />
+    <transformation output_field="r_distribution" type="distribution" num_samples="1" bins="10" min="0" max="1" input_field="r_samples" mode="stateless" output_data_shape="array1d" />
+    <transformation output_field="skewness_distribution" type="distribution" num_samples="1" bins="10" min="-1" max="1" input_field="skewness_samples" mode="stateless" output_data_shape="array1d" />
+    <transformation output_field="width_distribution" type="distribution" num_samples="1" bins="10" min="0" max="1" input_field="width_samples" mode="stateless" output_data_shape="array1d" />
+    <transformation output_field="x_distribution" type="distribution" num_samples="1" bins="10" min="-1" max="1" input_field="x_samples" mode="stateless" output_data_shape="array1d" />
+    <transformation output_field="y_distribution" type="distribution" num_samples="1" bins="10" min="-1" max="1" input_field="y_samples" mode="stateless" output_data_shape="array1d" />
+
+    <!-- 2d distribution of hillas parameters -->
+    <transformation output_field="intensity_skewness_correlation" type="correlation" mode="stateless" input_field="intensity_samples,skewness_samples" binsx="100" binsy="100" xmin="0" xmax="10000" ymin="-5" ymax="5"/>
+    <transformation output_field="intensity_width_correlation" type="correlation" mode="stateless" input_field="intensity_samples,width_samples" binsx="100" binsy="100" xmin="0" xmax="10000" ymin="0" ymax="5"/>
+    <transformation output_field="intensity_length_correlation" type="correlation" input_field="intensity_samples,length_samples" mode="stateless" output_data_shape="array1d" binsx="100" binsy="100" xmin="0" xmax="10000" ymin="-5" ymax="5"/>
+    <transformation output_field="width_length_correlation" type="correlation" input_field="width_samples,length_samples" mode="stateless" output_data_shape="array1d" binsx="100" binsy="100"  xmin="-1" xmax="1" ymin="-1" ymax="1"/>
+    <transformation output_field="intensity_kurtosis_correlation" type="correlation" input_field="intensity_samples,kurtosis_samples" mode="stateless" output_data_shape="array1d" binsx="100" binsy="100" xmin="0" xmax="10000" ymin="-5" ymax="5"/>
+    <transformation output_field="x_y_correlation" type="correlation" input_field="x_samples,y_samples" mode="stateless" output_data_shape="array1d" binsx="100" binsy="100" xmin="-0.05" xmax="0.05" ymin="-0.05" ymax="0.05"/>
+
+  </transformator>
+</transformations>

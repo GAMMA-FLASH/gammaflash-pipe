@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<aggregations>
+
+  <aggregator id="AGILE_aggregator" data_type_in="AGILE_test" >
+    <aggregation input_field="PKTIDDFF" type="get_samples" output_field="PKTIDDFF_samples" mode="stateless" max_array_size="1000" />
+    <aggregation input_field="SEGMFLAG" type="get_samples" output_field="SEGMFLAG_samples" mode="stateless" max_array_size="1000" />
+    <aggregation input_field="PKTSEQCN" type="get_samples" output_field="PKTSEQCN_samples" mode="stateless" max_array_size="1000" />
+  </aggregator>
+
+</aggregations>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transformations>
+
+  <transformator id="GF_transformation" data_type_in="GF_test">
+    <transformation output_field="x_distribution" type="distribution" num_samples="1" bins="1000" min="0" max="1.1" input_field="x_samples" mode="stateful" output_data_shape="array1d" />
+    <transformation output_field="y_distribution" type="distribution" num_samples="1" bins="1000" min="0" max="1.1" input_field="y_samples" mode="stateful" output_data_shape="array1d" />
+  </transformator>
+
+</transformations>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rta_dq_pipe_config>
+    
+    <logging dir="$RTADQPIPE_TEST_OUTPUT/output_logs/test_filehandler" level="DEBUG" />
+
+    <databases>
+    </databases>
+    
+    <exec>
+        <submit_command submit="False"></submit_command>
+        <pipeline_commands>
+        </pipeline_commands>
+    </exec>
+
+    <dqpipelines>
+
+
+    </dqpipelines>
+    
+    
+</rta_dq_pipe_config>

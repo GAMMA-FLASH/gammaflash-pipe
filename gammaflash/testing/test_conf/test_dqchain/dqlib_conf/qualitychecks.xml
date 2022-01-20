@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<qualitycheckers>
+
+  <qualitychecker id="pixelcheck" data_type_in="lst_dl1_camera" sample_size="1000">
+    <qualitycheck id="image_pixel_range" input_field="image" type="rangethreshold" lb_alarm="-100" lb_warning="-16" ub_warning="30" ub_alarm="40" />
+  </qualitychecker>
+
+  <qualitychecker id="hillascheck" data_type_in="lst_dl1_parameters" sample_size="1000">
+    <qualitycheck id="length_check" input_field="length" type="lowerboundthreshold" lb_alarm="0" lb_warning="0"  />
+    <qualitycheck id="intensity_check" input_field="intensity" type="lowerboundthreshold" lb_alarm="0" lb_warning="0" />
+    <qualitycheck id="kurtosis_check" input_field="kurtosis"  type="lowerboundthreshold" lb_alarm="0" lb_warning="0" />
+    <qualitycheck id="phi_check" input_field="phi" type="rangethreshold" lb_alarm="-10" lb_warning="-5" ub_warning="5" ub_alarm="10" />
+    <qualitycheck id="psi_check" input_field="psi" type="rangethreshold" lb_alarm="-10" lb_warning="-5" ub_warning="5" ub_alarm="10" />
+    <qualitycheck id="r_check" input_field="r" type="lowerboundthreshold" lb_alarm="0" lb_warning="0" />
+    <qualitycheck id="skewness_check" input_field="skewness" type="rangethreshold" lb_alarm="-10" lb_warning="-5" ub_warning="5" ub_alarm="10" />
+    <qualitycheck id="width_check" input_field="width" type="lowerboundthreshold" lb_alarm="0" lb_warning="0" />
+    <qualitycheck id="x_check" input_field="x" type="rangethreshold" lb_alarm="-10" lb_warning="-5" ub_warning="5" ub_alarm="10" />
+    <qualitycheck id="y_check" input_field="y" type="rangethreshold" lb_alarm="-10" lb_warning="-5" ub_warning="5" ub_alarm="10" />
+  </qualitychecker>
+
+</qualitycheckers>

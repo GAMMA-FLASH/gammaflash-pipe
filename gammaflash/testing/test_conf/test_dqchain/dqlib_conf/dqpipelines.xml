@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dqpipelines>
+
+  <!-- Pipelines for the camera dq requirements -->
+  <dqpipeline id="camera_pipe_step1" data_type_in="lst_dl1_camera" data_type_out="camera_pipe_step1_out">
+    <activity type="aggregation" id="dl1_camera_aggregator_step1" />
+    <activity type="transformation" id="dl1_camera_transformer_step1" />
+  </dqpipeline>
+
+  <dqpipeline id="camera_pipe_step2" data_type_in="camera_pipe_step1_out" data_type_out="camera_pipe_step2_out">
+    <activity type="aggregation" id="dl1_camera_aggregator_step2" />
+    <activity type="transformation" id="dl1_camera_transformer_step2" />
+  </dqpipeline>
+
+
+
+  <!-- Pipelines for the hillas parameters dq requirements -->
+  <dqpipeline id="hillas_pipe_step1" data_type_in="lst_dl1_parameters" data_type_out="hillas_pipe_step1_out">
+    <activity type="aggregation" id="dl1_hillas_aggregator_step1" />
+    <activity type="transformation" id="dl1_hillas_transformer_step1" />
+  </dqpipeline>
+
+  <dqpipeline id="hillas_pipe_step2" data_type_in="hillas_pipe_step1_out" data_type_out="hillas_pipe_step2_out">
+    <activity type="aggregation" id="dl1_hillas_aggregator_step2" />
+  </dqpipeline>
+
+
+
+  <!-- Pipeline for camera quality checks -->
+  <dqpipeline id="qualitycheck_camera_pipe" data_type_in="lst_dl1_camera" data_type_out="qualitycheck_camera_out">
+    <activity type="qualitycheck" id="pixelcheck" />
+  </dqpipeline>
+
+
+  <!-- Pipeline for hillas parameters quality checks -->
+  <dqpipeline id="qualitycheck_hillas_pipe" data_type_in="lst_dl1_parameters" data_type_out="qualitycheck_hillas_out">
+    <activity type="qualitycheck" id="hillascheck" />
+  </dqpipeline>
+
+</dqpipelines>

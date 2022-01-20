@@ -1,0 +1,54 @@
+<?xml version="1.0" ?>
+<datatypes>
+  <datatype desc="" id="AGILE_test" id_field="PAKTNUMB" time_field="TIME">
+    <field data_shape="scalar" data_type="int" name="PAKTNUMB"/>
+    <field data_shape="scalar" data_type="int" name="PKTIDVNM"/>
+    <field data_shape="scalar" data_type="int" name="PKTIDTYP"/>
+    <field data_shape="scalar" data_type="int" name="PKTIDDFF"/>
+    <field data_shape="scalar" data_type="int" name="SEGMFLAG"/>
+    <field data_shape="scalar" data_type="int" name="PKTSEQCN"/>
+    <field data_shape="scalar" data_type="int" name="PKTLENGT"/>
+    <field data_shape="scalar" data_type="int" name="32BITSYN"/>
+    <field data_shape="scalar" data_type="int" name="CRCFLAG"/>
+    <field data_shape="scalar" data_type="int" name="MMPAGEID"/>
+    <field data_shape="scalar" data_type="int" name="MMPKTCNT"/>
+    <field data_shape="scalar" data_type="int" name="APIDSEQC"/>
+    <field data_shape="scalar" data_type="int" name="OBTMSETT"/>
+    <field data_shape="scalar" data_type="int" name="OBTSECTT"/>
+    <field data_shape="scalar" data_type="int" name="OBTTIMFL"/>
+    <field data_shape="scalar" data_type="int" name="PLOPMODE"/>
+    <field data_shape="scalar" data_type="int" name="PKTSTRID"/>
+    <field data_shape="scalar" data_type="int" name="REDUNDID"/>
+    <field data_shape="scalar" data_type="int" name="CRCVALUE"/>
+    <field data_shape="scalar" data_type="int" name="TIME"/>
+    <field data_shape="scalar" data_type="int" name="TIMESC"/>
+    <field data_shape="scalar" data_type="int" name="M6000_0_MCAL_CMD"/>
+    <field data_shape="scalar" data_type="int" name="M6001_1_HVPS_CMD"/>
+    <field data_shape="scalar" data_type="int" name="M6002_2_SS_1_CMD"/>
+    <field data_shape="scalar" data_type="int" name="M6003_3_SS_2_CMD"/>
+    <field data_shape="scalar" data_type="int" name="M6004_4_GPS_N_CMD"/>
+    <field data_shape="scalar" data_type="int" name="M6006_6_SA_C1_CMD"/>
+    <field data_shape="scalar" data_type="int" name="M6007_7_SA_C2_CMD"/>
+    <field data_shape="scalar" data_type="int" name="M6008_0_ST_A_CMD"/>
+    <field data_shape="scalar" data_type="int" name="M6009_1_ST_B_CMD"/>
+    <field data_shape="scalar" data_type="int" name="M6010_2_ST_C_CMD"/>
+    <field data_shape="scalar" data_type="int" name="M6011_3_ST_D_CMD"/>
+    <field data_shape="scalar" data_type="int" name="M6012_4_SA_A_CMD"/>
+    <field data_shape="scalar" data_type="int" name="M6013_5_SA_B_CMD"/>
+    <field data_shape="scalar" data_type="int" name="M6014_6_SA_C_CMD"/>
+    <field data_shape="scalar" data_type="int" name="M6015_7_SA_D_CMD"/>
+    <field data_shape="scalar" data_type="int" name="M6016_0_Analog_HK_Valid_Flag"/>
+    <field data_shape="scalar" data_type="int" name="M6017_0_SAIE1_AVcc"/>
+    <field data_shape="scalar" data_type="int" name="M6018_0_SAIE1_DVcc_AHK"/>
+    <field data_shape="scalar" data_type="int" name="M6019_0_SAIE1_AVcc_AHK"/>
+    <field data_shape="scalar" data_type="int" name="M6019a_0_SAIE1_AVee_AHK"/>
+    <field data_shape="scalar" data_type="int" name="M6020_0_SAIE1_XVdd_AHK"/>
+    <field data_shape="scalar" data_type="int" name="M6021_0_SAIE1_XVss_AHK"/>
+    <field data_shape="scalar" data_type="int" name="M6022_0_SAIE1_S1_SAIE_TEMP"/>
+    <field data_shape="scalar" data_type="int" name="M6023_0_SAIE1_S2_SAIE_TEMP"/>
+    <field data_shape="scalar" data_type="int" name="M6024_0_SAIE1_S1_DET_V"/>
+    <field data_shape="scalar" data_type="int" name="M6025_0_SAIE1_S1_DET_I"/>
+    <field data_shape="scalar" data_type="int" name="M6026_0_SAIE1_S2_DET_V"/>
+    <field data_shape="scalar" data_type="int" name="TIMEORI"/>
+  </datatype>
+</datatypes>

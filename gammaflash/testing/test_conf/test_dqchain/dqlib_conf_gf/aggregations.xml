@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<aggregations>
+
+  <aggregator id="GF_aggregator" data_type_in="GF_test" >
+    <aggregation input_field="x" type="get_samples" output_field="x_samples" mode="stateless" max_array_size="5000" />
+    <aggregation input_field="y" type="get_samples" output_field="y_samples" mode="stateless" max_array_size="5000" />
+  </aggregator>
+
+</aggregations>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<aggregations>
+
+                                        <!-- CAMERA PIPE -->
+
+  <!-- step 1 -->
+  <aggregator id="dl1_camera_aggregator_step1" data_type_in="lst_dl1_camera" >
+    <!-- Distibution of each camera pixel -->
+    <aggregation input_field="image" type="get_samples" output_field="camera_pixels_charges" mode="stateless" max_array_size="100000" />
+    <!-- for rms transformation -->
+    <aggregation input_field="image" type="opsumofsquares" output_field="camera_sum_of_squares" mode="stateful" />
+    <!-- sum of camera pixels -->
+    <aggregation input_field="image" type="opsum" output_field="camera_sum" mode="stateful" />
+
+  </aggregator>
+
+  <!-- step 2 -->
+  <aggregator id="dl1_camera_aggregator_step2" data_type_in="camera_pipe_step1_out" >
+     <!-- sum of camera distributions -->
+     <aggregation input_field="camera_pixels_charges_distributions" type="opsum" output_field="camera_pixels_charges_distributions" mode="stateless" />
+     <!-- sum of camera pixels -->
+     <aggregation input_field="camera_sum" type="opsum" output_field="camera_sum" mode="stateless" />
+     <!-- camera_sum_of_squares of camera pixels -->
+     <aggregation input_field="camera_sum_of_squares" type="opsum" output_field="camera_sum_of_squares" mode="stateless" />
+
+   </aggregator>
+
+
+
+                                         <!-- HILLAS PIPE -->
+
+  <!-- step 1 -->
+  <aggregator id="dl1_hillas_aggregator_step1" data_type_in="lst_dl1_parameters" >
+
+     <!-- Collecting samples of hillas parameters -->
+     <aggregation input_field="hillas_intensity" type="get_samples" output_field="intensity_samples" mode="stateless" max_array_size="100000" />
+     <aggregation input_field="hillas_skewness" type="get_samples" output_field="skewness_samples" mode="stateless" max_array_size="100000" />
+     <aggregation input_field="hillas_width" type="get_samples" output_field="width_samples" mode="stateless" max_array_size="100000" />
+     <aggregation input_field="hillas_length" type="get_samples" output_field="length_samples" mode="stateless" max_array_size="100000" />
+     <aggregation input_field="hillas_kurtosis" type="get_samples" output_field="kurtosis_samples" mode="stateless" max_array_size="100000" />
+     <aggregation input_field="hillas_phi" type="get_samples" output_field="phi_samples" mode="stateless" max_array_size="100000" />
+     <aggregation input_field="hillas_psi" type="get_samples" output_field="psi_samples" mode="stateless" max_array_size="100000" />
+     <aggregation input_field="hillas_r" type="get_samples" output_field="r_samples" mode="stateless" max_array_size="100000" />
+     <aggregation input_field="hillas_x" type="get_samples" output_field="x_samples" mode="stateless" max_array_size="100000" />
+     <aggregation input_field="hillas_y" type="get_samples" output_field="y_samples" mode="stateless" max_array_size="100000" />
+   </aggregator>
+
+  <!-- step 2 -->
+  <aggregator id="dl1_hillas_aggregator_step2" data_type_in="hillas_pipe_step1_out" >
+
+     <!-- 1d histograms -->
+     <aggregation input_field="intensity_distribution" type="opsum" output_field="intensity_distribution" mode="stateful" output_data_shape="array1d" />
+     <aggregation input_field="kurtosis_distribution" type="opsum" output_field="kurtosis_distribution" mode="stateful" output_data_shape="array1d" />
+     <aggregation input_field="length_distribution" type="opsum" output_field="length_distribution" mode="stateful" output_data_shape="array1d" />
+     <aggregation input_field="phi_distribution" type="opsum" output_field="phi_distribution" mode="stateful" output_data_shape="array1d" />
+     <aggregation input_field="psi_distribution" type="opsum" output_field="psi_distribution" mode="stateful" output_data_shape="array1d" />
+     <aggregation input_field="r_distribution" type="opsum" output_field="r_distribution" mode="stateful" output_data_shape="array1d" />
+     <aggregation input_field="skewness_distribution" type="opsum" output_field="skewness_distribution" mode="stateful" output_data_shape="array1d" />
+     <aggregation input_field="width_distribution" type="opsum" output_field="width_distribution" mode="stateful" output_data_shape="array1d" />
+     <aggregation input_field="x_distribution" type="opsum" output_field="x_distribution" mode="stateful" output_data_shape="array1d" />
+     <aggregation input_field="y_distribution" type="opsum" output_field="y_distribution" mode="stateful" output_data_shape="array1d" />
+
+     <!-- 2d histograms -->
+     <aggregation input_field="intensity_skewness_correlation" type="opsum" output_field="intensity_skewness_correlation" mode="stateful" output_data_shape="array1d" />
+     <aggregation input_field="intensity_width_correlation" type="opsum" output_field="intensity_width_correlation" mode="stateful" output_data_shape="array1d" />
+     <aggregation input_field="intensity_length_correlation" type="opsum" output_field="intensity_length_correlation" mode="stateful" output_data_shape="array1d" />
+     <aggregation input_field="width_length_correlation" type="opsum" output_field="width_length_correlation" mode="stateful" output_data_shape="array1d" />
+     <aggregation input_field="intensity_kurtosis_correlation" type="opsum" output_field="intensity_kurtosis_correlation" mode="stateful" output_data_shape="array1d" />
+     <aggregation input_field="x_y_correlation" type="opsum" output_field="x_y_correlation" mode="stateful" output_data_shape="array1d" />
+
+   </aggregator>
+
+</aggregations>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dqpipelines>
+
+  <dqpipeline id="AGILE_pipeline" data_type_in="AGILE_test" data_type_out="AGILE_test_out">
+    <activity type="aggregation" id="AGILE_aggregator" />
+    <activity type="transformation" id="AGILE_transformation" />
+  </dqpipeline>
+
+</dqpipelines>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datatypes>
+
+
+                                        <!-- CAMERA PIPE -->
+
+  <datatype id="lst_dl1_camera" id_field="event_id" time_field="trigger_time" desc="DL1 real data (March 2020)">
+    <field name="event_id" data_shape="scalar" data_type="int"/>
+    <field name="image" data_shape="array1d" data_type="float" x_dim="1855" um="?"/>
+    <field name="num_trig_px" data_shape="scalar" data_type="int"/>
+    <field name="obs_id" data_shape="scalar" data_type="int"/>
+    <field name="pulse_time" data_shape="array1d" data_type="float" x_dim="1855" um="?"/>
+    <field name="tel_id" data_shape="scalar" data_type="int" />
+    <field name="time" data_shape="array1d" data_type="float" x_dim="1" um="?"/>
+    <field name="trigger_type" data_shape="scalar" data_type="int" />
+  </datatype>
+
+  <datatype id="camera_pipe_step1_out" id_field="" time_field="" desc="">
+    <field name="camera_pixels_charges_distributions" data_shape="array2d" data_type="float" x_dim="1855" y_dim="50"/>
+    <field name="camera_sum" data_shape="array1d" data_type="float" x_dim="1855" />
+    <field name="camera_sum_of_squares" data_shape="array1d" data_type="float" x_dim="1855" />
+  </datatype>
+
+
+
+
+                                          <!-- HILLAS PIPE -->
+
+
+  <datatype id="lst_dl1_parameters" id_field="event_id" time_field="timing_intercept" desc="DL1 real data (April 2021)">
+
+    <field name="event_id" data_shape="scalar" data_type="float" um="m"/>
+    <field name="obs_id" data_shape="scalar" data_type="float" um="m"/>
+    <field name="tel_id" data_shape="scalar" data_type="float" um="m"/>
+
+    <field name="hillas_length" data_shape="scalar" data_type="float" um="m"/>
+    <field name="hillas_width" data_shape="scalar" data_type="float" um="m"/>
+    <field name="hillas_phi" data_shape="scalar" data_type="float" um="rad"/>
+    <field name="hillas_psi" data_shape="scalar" data_type="float" um="rad"/>
+    <field name="hillas_r" data_shape="scalar" data_type="float" um="m"/>
+    <field name="hillas_skewness" data_shape="scalar" data_type="float" um="?"/>
+    <field name="hillas_x" data_shape="scalar" data_type="float" um="m"/>
+    <field name="hillas_y" data_shape="scalar" data_type="float" um="m"/>
+    <field name="hillas_intensity" data_shape="scalar" data_type="float" um="m"/>
+    <field name="hillas_kurtosis" data_shape="scalar" data_type="float" um="m"/>
+
+    <field name="is_good_event" data_shape="scalar" data_type="int" um="m"/>
+    <field name="timing_slope" data_shape="scalar" data_type="float" um="m"/>
+    <field name="timing_intercept" data_shape="scalar" data_type="float" um="m"/>
+    <field name="leakage_pixels_width_1" data_shape="scalar" data_type="float" um="m"/>
+    <field name="leakage_pixels_width_2" data_shape="scalar" data_type="float" um="m"/>
+    <field name="leakage_intensity_width_1" data_shape="scalar" data_type="float" um="m"/>
+    <field name="leakage_intensity_width_2" data_shape="scalar" data_type="float" um="m"/>
+    <field name="morphology_num_islands" data_shape="scalar" data_type="float" um="m"/>
+    <field name="morphology_num_pixels" data_shape="scalar" data_type="float" um="m"/>
+    <field name="total_intensity" data_shape="scalar" data_type="float" um="m"/>
+
+
+  </datatype>
+
+
+  <datatype id="hillas_pipe_step1_out" id_field="" time_field="" desc="">
+    <field name="intensity_distribution" data_shape="array1d" data_type="float" x_dim="10" />
+    <field name="kurtosis_distribution" data_shape="array1d" data_type="float" x_dim="10" />
+    <field name="length_distribution" data_shape="array1d" data_type="float" x_dim="10" />
+    <field name="phi_distribution" data_shape="array1d" data_type="float" x_dim="10" />
+    <field name="psi_distribution" data_shape="array1d" data_type="float" x_dim="10" />
+    <field name="r_distribution" data_shape="array1d" data_type="float" x_dim="10" />
+    <field name="skewness_distribution" data_shape="array1d" data_type="float" x_dim="10" />
+    <field name="width_distribution" data_shape="array1d" data_type="float" x_dim="10" />
+    <field name="x_distribution" data_shape="array1d" data_type="float" x_dim="10" />
+    <field name="y_distribution" data_shape="array1d" data_type="float" x_dim="10" />
+
+    <field name="intensity_skewness_correlation" data_shape="array2d" data_type="float" x_dim="100" y_dim="100" />
+    <field name="intensity_width_correlation" data_shape="array2d" data_type="float" x_dim="100" y_dim="100" />
+    <field name="intensity_skewness_correlation" data_shape="array2d" data_type="float" x_dim="100" y_dim="100" />
+    <field name="intensity_length_correlation" data_shape="array2d" data_type="float" x_dim="100" y_dim="100" />
+    <field name="width_length_correlation" data_shape="array2d" data_type="float" x_dim="100" y_dim="100" />
+    <field name="intensity_kurtosis_correlation" data_shape="array2d" data_type="float" x_dim="100" y_dim="100" />
+    <field name="x_y_correlation" data_shape="array2d" data_type="float" x_dim="100" y_dim="100" />
+
+  </datatype>
+
+
+</datatypes>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notifiers>
+  <notifier id="camera_checks_notifier">
+    <quality_check_field id="image_pixel_range" datatype="lst_dl1_camera" field="image" max_alarms="20" max_warnings="20" />
+    <!--<quality_check_field id="qc2" datatype="dl1_image" field="image" />-->
+  </notifier>
+</notifiers>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rta_dq_pipe_config>
+    
+    <logging dir="$RTADQPIPE_TEST_OUTPUT/output_logs/test_full_pipeline_singlethread" level="DEBUG" />
+
+    <databases>
+        <database type="mysql" hostname="a" port="b" username="c" password="d"/>
+        <database type="redis" hostname="a" port="b" username="c" password="d" />
+    </databases>
+    
+    <exec>
+        <submit_command submit="True">sbatch --parsable</submit_command>
+        <pipeline_commands>
+            <command>source activate rta-dq-dev</command>
+            <command>export DQ_PIPE_PATH=/opt/dev/rta-dq/rta-dq/rta-dq-pipe/rta_dq_pipe/</command>
+            <command>export DQ_PIPE_CONF=/opt/dev/rta-dq/rta-dq-pipe-conf/</command>
+            <command>export DQLIBCONF=/opt/dev/rta-dq/rta-dq-lib-conf/rta-dq-configurations-lst1/</command>
+            <command>python -u $DQ_PIPE_PATH/dqpipeline_bootstrap.py --confFilePath=$DQ_PIPE_PATH/testing/test_conf/test_full_pipeline/test_fullpipeline_hdf5_in_pickle_out.xml --pipelineId=#pipeid# --obsId=#obsid# --runId=#runid#</command>
+        </pipeline_commands>
+    </exec>
+
+    <dqpipelines>
+
+        <dqpipeline type="dq_analysis" id="line_1_camera" dqchain_id="camera_pipe_step1" nthreads="0">
+            <input_data  type="h5" input_dirs="$RTADQPIPE_TEST_OUTPUT/line_1" file_pattern="*" reading_string="/dl1/event/telescope/images/tel_001" join_with="" join_keys="" filter_column="" filter_value=""/>  
+            <output_data type="pickle" output_loc="$RTADQPIPE_TEST_OUTPUT/analysis_dir_out" overwrite="false"  suffix="line_1" />
+        </dqpipeline>
+        <dqpipeline type="dq_analysis" id="line_2_camera" dqchain_id="camera_pipe_step1" nthreads="0">
+            <input_data  type="h5" input_dirs="$RTADQPIPE_TEST_OUTPUT/line_2" file_pattern="*" reading_string="/dl1/event/telescope/images/tel_001" join_with="" join_keys="" filter_column="" filter_value=""/>  
+            <output_data type="pickle" output_loc="$RTADQPIPE_TEST_OUTPUT/analysis_dir_out" overwrite="false" suffix="line_2" />
+        </dqpipeline>
+        <dqpipeline type="dq_aggregator" id="camera_aggregator" dqchain_id="camera_pipe_step2" nthreads="0">
+            <input_data  type="pickle" input_dirs="$RTADQPIPE_TEST_OUTPUT/analysis_dir_out" file_pattern="*"/>  
+            <output_data type="pickle" output_loc="$RTADQPIPE_TEST_OUTPUT/aggregator_dir_out" overwrite="true" suffix="test_out"/>
+        </dqpipeline>
+
+    </dqpipelines>
+    
+    
+</rta_dq_pipe_config>

@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<datatypes>
+  <datatype desc="" id="GF_test" time_field="x">
+    <field data_shape="scalar" data_type="float" name="x"/>
+    <field data_shape="scalar" data_type="float" name="y"/>
+  </datatype>
+</datatypes>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dqpipelines>
+
+  <dqpipeline id="gamma-flash-dq_pipeline" data_type_in="GF_test" data_type_out="GF_test_out">
+    <activity type="aggregation" id="GF_aggregator" />
+    <activity type="transformation" id="GF_transformation" />
+  </dqpipeline>
+
+</dqpipelines>

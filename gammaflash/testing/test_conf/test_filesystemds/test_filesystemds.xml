@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rta_dq_pipe_config>
+    
+    <logging dir="$RTADQPIPE_TEST_OUTPUT/output_logs/test_filesystemds" level="DEBUG" />
+
+    <databases>
+        <database type="mysql" hostname="a" port="b" username="c" password="d"/>
+        <database type="redis" hostname="a" port="b" username="c" password="d" />
+    </databases>
+    
+    <exec>
+        <submit_command submit="False">submit command</submit_command>
+        <pipeline_commands>
+            <command>command 1</command>
+            <command>command 2</command>
+        </pipeline_commands>
+    </exec>
+
+    <dqpipelines>
+
+
+    </dqpipelines>
+    
+    
+</rta_dq_pipe_config>
