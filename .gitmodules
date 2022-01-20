@@ -1,0 +1,3 @@
+[submodule "rta-dq"]
+	path = rta-dq
+	url = git@github.com:ASTRO-EDU/rta-dq.git
