@@ -4,7 +4,7 @@ import os,sys,json,datetime,time
 from multiprocessing import Process
 from defusedxml.ElementTree import parse
 from rta_dq_pipe.utils.XmlReader import XmlReader
-from rta_dq_pipe.pipe.DQPipeBuilder import DQPipeBuilder
+from gammaflash.pipe.DQPipeBuilder import DQPipeBuilder
 
 
 class DQPipeController:

@@ -2,7 +2,7 @@ import numpy as np
 from time import time
 from scipy.signal import find_peaks
 from lmfit.models import PolynomialModel
-from rta_dq_pipe.pipe.DQPipeline import DQPipeline
+from gammaflash.pipe.DQPipeline import DQPipeline
 
 class DQGammaFlash(DQPipeline):
     

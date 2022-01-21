@@ -1,7 +1,7 @@
 from pathlib import Path
 from rta_dq_pipe.output.OutputHandler import OutputHandler
 from rta_dq_pipe.utils.PipeLoggerConfig import PipeLoggerConfig
-from rta_dq_pipe.datasource.filesystem.GfHandler import GfHandler
+from gammaflash.datasource.filesystem.GfHandler import GfHandler
 
 class OutputToHdf5(OutputHandler):
 

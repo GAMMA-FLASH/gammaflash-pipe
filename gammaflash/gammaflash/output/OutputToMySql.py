@@ -1,7 +1,7 @@
 import pymysql.cursors
 import random
 import json
-from rta_dq_pipe.datasource.database.MySqlHandler import MySqlHandler
+from gammaflash.datasource.database.MySqlHandler import MySqlHandler
 from rta_dq_pipe.output.OutputHandler import OutputHandler
 from rta_dq_pipe.utils.PipeLoggerConfig import PipeLoggerConfig
 

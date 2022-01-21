@@ -1,24 +1,25 @@
 import os
 import logging
 from pathlib import Path
-from rta_dq_pipe.datasource.filesystem.GfHandler import GfHandler
-from rta_dq_pipe.output.OutputToHdf5 import OutputToHdf5
+from gammaflash.output.OutputToHdf5 import OutputToHdf5
 from rta_dq_pipe.utils.XmlReader import XmlReader
 from rta_dq_lib.api.DQLib import DQLib
 from rta_dq_pipe.pipe.DQAnalysisAcada import DQAnalysisAcada
 from rta_dq_pipe.pipe.DQAggregator import DQAggregator
-from rta_dq_pipe.pipe.DQGammaFlash import DQGammaFlash
 from rta_dq_pipe.datasource.database.MySqlHandler import MySqlHandler
 from rta_dq_pipe.datasource.database.RedisHandler import RedisHandler
 from rta_dq_pipe.datasource.filesystem.FileSystemDS import FileSystemDS
 from rta_dq_pipe.datasource.filesystem.FitsHandler import FitsHandler
 from rta_dq_pipe.datasource.filesystem.Hdf5HandlerAcada import Hdf5HandlerAcada
-from rta_dq_pipe.datasource.filesystem.Hdf5HandlerGammaflash import Hdf5HandlerGammaflash
 from rta_dq_pipe.datasource.filesystem.PickleHandler import PickleHandler
 
 from rta_dq_pipe.output.OutputToMySql import OutputToMySql
 from rta_dq_pipe.output.OutputToPickle import OutputToPickle
 from rta_dq_pipe.utils.PipeLoggerConfig import PipeLoggerConfig
+
+from gammaflash.datasource.filesystem.Hdf5HandlerGammaflash import Hdf5HandlerGammaflash
+from gammaflash.pipe.DQGammaFlash import DQGammaFlash
+from gammaflash.datasource.filesystem.GfHandler import GfHandler
 
 class DQPipeBuilder:
 
