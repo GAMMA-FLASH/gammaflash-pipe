@@ -6,18 +6,20 @@ from rta_dq_pipe.utils.XmlReader import XmlReader
 from rta_dq_lib.api.DQLib import DQLib
 from rta_dq_pipe.pipe.DQAnalysisAcada import DQAnalysisAcada
 from rta_dq_pipe.pipe.DQAggregator import DQAggregator
-from rta_dq_pipe.datasource.database.MySqlHandler import MySqlHandler
 from rta_dq_pipe.datasource.database.RedisHandler import RedisHandler
 from rta_dq_pipe.datasource.filesystem.FileSystemDS import FileSystemDS
 from rta_dq_pipe.datasource.filesystem.FitsHandler import FitsHandler
 from rta_dq_pipe.datasource.filesystem.Hdf5HandlerAcada import Hdf5HandlerAcada
 from rta_dq_pipe.datasource.filesystem.PickleHandler import PickleHandler
 
-from rta_dq_pipe.output.OutputToMySql import OutputToMySql
-from rta_dq_pipe.output.OutputToPickle import OutputToPickle
+#from rta_dq_pipe.output.OutputToMySql import OutputToMySql
+#from rta_dq_pipe.output.OutputToPickle import OutputToPickle
 from rta_dq_pipe.utils.PipeLoggerConfig import PipeLoggerConfig
 
+from gammaflash.output.OutputToMySql import OutputToMySql
+from gammaflash.output.OutputToPickle import OutputToPickle
 from gammaflash.datasource.filesystem.Hdf5HandlerGammaflash import Hdf5HandlerGammaflash
+from gammaflash.datasource.database.MySqlHandler import MySqlHandler
 from gammaflash.pipe.DQGammaFlash import DQGammaFlash
 from gammaflash.datasource.filesystem.GfHandler import GfHandler
 
@@ -61,7 +63,7 @@ class DQPipeBuilder:
         DQPipeBuilder.createDirectories(pipelineConf)
 
         if pipelineConf["input_data"]["type"] == "h5":
-            handler = Hdf5HandlerAcada(
+            handler = Hdf5HandlerGammaflash(
                 pipelineConf["input_data"]["reading_string"], joinReadingString=pipelineConf["input_data"]["join_with"], joinKeys=pipelineConf["input_data"]["join_keys"])
             
         elif pipelineConf["input_data"]["type"] == "pickle":
