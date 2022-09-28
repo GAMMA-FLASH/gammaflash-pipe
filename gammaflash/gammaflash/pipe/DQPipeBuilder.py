@@ -21,6 +21,8 @@ from gammaflash.output.OutputToPickle import OutputToPickle
 from gammaflash.datasource.filesystem.Hdf5HandlerGammaflash import Hdf5HandlerGammaflash
 from gammaflash.datasource.database.MySqlHandler import MySqlHandler
 from gammaflash.pipe.DQGammaFlash import DQGammaFlash
+from gammaflash.pipe.GammaflashDL1 import GammaflashDL1
+from gammaflash.pipe.GammaflashDL2 import GammaflashDL2
 from gammaflash.datasource.filesystem.GfHandler import GfHandler
 
 class DQPipeBuilder:
@@ -106,6 +108,12 @@ class DQPipeBuilder:
 
         elif pipelineConf["type"] == "reco_gammaflash":
             return DQGammaFlash(pipelineConf["id"], dataSource, pipelineConf["dqchain_id"], output, obsId, runId)
+
+        elif pipelineConf["type"] == "GammaflashDL1":
+            return GammaflashDL1(pipelineConf["id"], dataSource, pipelineConf["dqchain_id"], output, obsId, runId)
+        
+        elif pipelineConf["type"] == "GammaflashDL2":
+            return GammaflashDL2(pipelineConf["id"], dataSource, pipelineConf["dqchain_id"], output, obsId, runId)
 
 """if __name__=="__main__":
     import os 
