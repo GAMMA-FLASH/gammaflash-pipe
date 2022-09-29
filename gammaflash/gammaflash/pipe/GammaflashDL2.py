@@ -1,7 +1,7 @@
 from time import time
 from pathlib import Path
 
-from gammaflash.pipe.eventlist_v3 import Eventlist
+from gammaflash.pipe.eventlist_v4 import Eventlist
 from gammaflash.pipe.DQPipeline import DQPipeline
 
 
