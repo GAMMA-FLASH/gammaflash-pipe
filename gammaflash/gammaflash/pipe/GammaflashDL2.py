@@ -36,7 +36,7 @@ class GammaflashDL2(DQPipeline):
                 if temperatures_path.exists:
                     temperatures = eventlist.process_temps_file(temperatures_path)
                 else:
-                    temperatures = []
+                    temperatures = None
 
                 eventlist.process_file(filePath, temperatures, outputdir)
     
