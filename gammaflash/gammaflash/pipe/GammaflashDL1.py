@@ -27,7 +27,12 @@ class GammaflashDL1(DQPipeline):
 
                 self.logger.debug(f"New file extracted from the queue: {filePath}. Queue lenght: {self.dataSource.files.qsize()}")
                 self.logger.debug(f"Launching DL1 zerosuppression tool")
-                outfile = zerosuppression.CONVERT(filePath, self.rpId, str(self.outputHandler.outputLoc), Threshold=20, TFile="/data/gammaflash_repos/gammaflash-gui-dash/gui/weather_station/weather_station_temp.txt")
+
+                threshold = 20
+                if self.rpId == "rpg2":
+                    threshold = 5
+
+                outfile = zerosuppression.CONVERT(filePath, self.rpId, str(self.outputHandler.outputLoc), Threshold=threshold, TFile="/data/gammaflash_repos/gammaflash-gui-dash/gui/weather_station/weather_station_temp.txt")
                 _ = open(f"{outfile}.ok", "w")
     
     def stop(self):
