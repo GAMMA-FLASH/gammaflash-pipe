@@ -7,8 +7,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 from gammaflash.pipe.DL3 import DL3
 from datetime import datetime, timezone
-#from gammaflash.pipe.eventlist_v4 import Eventlist
-#from gammaflash.pipe.DQPipeline import DQPipeline
+from gammaflash.pipe.DQPipeline import DQPipeline
 
 
 class GammaflashDL3(DQPipeline):
@@ -30,15 +29,23 @@ class GammaflashDL3(DQPipeline):
                 
                 start = time()
 
-                self.logger.debug(f"New file extracted from the queue: {filePath}. Queue lenght: {self.dataSource.files.qsize()}")
+                
+
+                #cleaning filename for testing
+                filepath_pathlib = Path(filePath)
+                filename_replace_ext = filepath_pathlib.with_suffix('.txt')
+
+                self.logger.debug(f"New file extracted from the queue: {filename_replace_ext}. Queue lenght: {self.dataSource.files.qsize()}")
                 self.logger.debug(f"Launching DL3 processing tool")
 
-                query_sp = DL3.process_spectrum(filepath)
-                outputHandler.mysqlHandler.write(query_sp)
 
 
-                query_lc = DL3.get_light_curve(filepath)
-                outputHandler.mysqlHandler.write(query_lc)
+                query_sp = DL3.process_spectrum(filename_replace_ext, id=self.rpId)
+                self.outputHandler.mysqlHandler.write(query_sp)
+
+
+                query_lc = DL3.get_light_curve(filename_replace_ext, id=self.rpId)
+                self.outputHandler.mysqlHandler.write(query_lc)
 
     
     def stop(self):

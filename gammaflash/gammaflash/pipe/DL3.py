@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 class DL3():
     
     @staticmethod
-    def process_spectrum(filename, bins, binsize):
+    def process_spectrum(filename, id, bins=10000, binsize=10):
         df = pd.read_csv(filename, sep="\t")
         df['tstart'] = pd.to_datetime(df['tstart'], unit="s")
         tstarts = df["tstart"].astype(str).to_list()
@@ -25,12 +25,12 @@ class DL3():
             "tend": tstarts[-1]
             })
         insert_time = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")
-        query = f"INSERT INTO gammaflash_test.GF_test_gui (insert_time, `type`, `data`, tstart, tend) VALUES('{insert_time}', 'spectrum_rpg0', '{result_json}', '{tstarts[0]}', '{tstarts[-1]}');"
+        query = f"INSERT INTO gammaflash_test.gui_spectra (insert_time, `type`, `data`, tstart, tend) VALUES('{insert_time}', 'spectrum_{id}', '{result_json}', '{tstarts[0]}', '{tstarts[-1]}');"
 
         return query
 
     @staticmethod
-    def get_light_curve(filename, freq="10S"):
+    def get_light_curve(filename, id, freq="10S"):
         
         df = pd.read_csv(filename, sep="\t")
 
@@ -49,7 +49,7 @@ class DL3():
             })
 
         insert_time = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")
-        query = f"INSERT INTO gammaflash_test.GF_test_gui (insert_time, `type`, `data`, tstart, tend) VALUES('{insert_time}', 'spectrum_rpg0', '{result_json}', '{tstarts[0]}', '{tstarts[-1]}');"
+        query = f"INSERT INTO gammaflash_test.gui_lc (insert_time, `type`, `data`, tstart, tend) VALUES('{insert_time}', 'lc_{id}', '{result_json}', '{tstarts[0]}', '{tstarts[-1]}');"
         
         return query
 
@@ -61,8 +61,8 @@ if __name__ == "__main__":
     y_hist = np.zeros(1000)
 
     for file in glob.glob(directory):
-        spectrum_data = process_spectrum(file)
-        lc_data = get_light_curve(file)
+        spectrum_data = DL3.process_spectrum(file)
+        lc_data = DL3.get_light_curve(file)
         print(spectrum_data)
         print(lc_data)
         exit()
