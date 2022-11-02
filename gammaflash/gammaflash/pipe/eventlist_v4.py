@@ -110,7 +110,7 @@ class Eventlist:
         basename = Path(outdir, os.path.basename(filename))
         tstarts = []
         header = f"N_Waveform\tmult\ttstart\tindex_peak\tpeak\tintegral1\tintegral2\tintegral3\thalflife\ttemp"
-        f = open(f"{basename}.txt", "w")
+        f = open(f"{Path(basename).with_suffix('.txt')}", "w")
         f.write(f"{header}\n")
         dl2_data = []
 
@@ -245,7 +245,7 @@ class Eventlist:
                     j = j + 1
 
         h5file.close()
-        GFhandler2.write(f"{basename}.h5", dl2_data)
+        GFhandler2.write(f"{Path(basename).with_suffix('.dl2.h5')}", dl2_data)
         
         f.close()
 
