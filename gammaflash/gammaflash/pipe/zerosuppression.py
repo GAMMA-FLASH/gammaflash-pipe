@@ -55,8 +55,11 @@ def CONVERT(filename, detector, directory, Threshold=20, TFile='WS_temp.csv'):
     SamplesOT = ToT / Sampling
     outfile = directory + "/" + Path(filename).name + detector + "_DST.pbz2"
     print(outfile)
-    if (Path(outfile).is_file()):
+    if Path(outfile).is_file():
         return
+
+    outfile_hdf5 = directory + "/" + Path(filename).name + detector + "_DST.hdf5"
+
     PeakList = []
     print(filename)
     try:
@@ -113,6 +116,9 @@ def CONVERT(filename, detector, directory, Threshold=20, TFile='WS_temp.csv'):
     f.close()
     with bz2.BZ2File(outfile, 'w') as fp:
         cPickle.dump(PeakList, fp)
+
+    with h5py.File(outfile_hdf5, "w") as data_file:
+        data_file.create_dataset("waveforms", data=PeakList)
 
     return outfile
 
