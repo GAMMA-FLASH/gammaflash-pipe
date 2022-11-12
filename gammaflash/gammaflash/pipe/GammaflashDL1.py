@@ -34,6 +34,9 @@ class GammaflashDL1(DQPipeline):
 
                 outfile = zerosuppression.CONVERT(filePath, self.rpId, str(self.outputHandler.outputLoc), Threshold=threshold, TFile="/data/gammaflash_repos/gammaflash-gui-dash/gui/weather_station/weather_station_temp.txt")
                 _ = open(f"{outfile}.ok", "w")
+
+                time_proc = time()
+                self.logger.debug(f"DL1 File processing took: {round(time_proc-start,5)}")
     
     def stop(self):
         self.dataSource.stopWatch()

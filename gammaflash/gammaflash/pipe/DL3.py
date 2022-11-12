@@ -10,16 +10,19 @@ import matplotlib.pyplot as plt
 class DL3():
     
     @staticmethod
-    def process_spectrum(filename, id, bins=10000, binsize=10):
-        df = pd.read_csv(filename, sep="\t")
+    def process_spectrum(filename, id, bins=400000, binsize=200):
+
+        print(filename)
+        df = pd.read_hdf(filename, "dl2/eventlist")
         df['tstart'] = pd.to_datetime(df['tstart'], unit="s")
         tstarts = df["tstart"].astype(str).to_list()
 
-        binning = np.arange(0,bins+binsize,binsize)
+        binning = np.arange(binsize,bins+(binsize*2),binsize)
 
         y_hist, bin = np.histogram(df["integral1"], bins=binning)
+        bin = 0.5 * (bin[:-1] + bin[1:])
 
-        result_json = json.dumps({"title" : "titolo", "xlabel" : "xlabel", "ylabel": "ylabel", 
+        result_json = json.dumps({"title" : f"Spectrum_{id}", "xlabel" : "Bins", "ylabel": "Counts", 
             "x": bin.tolist(), "y": y_hist.tolist(),
             "tstart":tstarts[0],
             "tend": tstarts[-1]
@@ -32,7 +35,7 @@ class DL3():
     @staticmethod
     def get_light_curve(filename, id, freq="10S"):
         
-        df = pd.read_csv(filename, sep="\t")
+        df = pd.read_hdf(filename, "dl2/eventlist")
 
         df['tstart'] = pd.to_datetime(df['tstart'], unit="s")
         tstarts = df["tstart"].astype(str).to_list()
@@ -40,7 +43,7 @@ class DL3():
         df_grouped["y_err"] = df_grouped["counts"]**(1/2)
         
 
-        result_json = json.dumps({"title" : "titolo", "xlabel" : "xlabel", "ylabel": "ylabel", "mode": "bar", 
+        result_json = json.dumps({"title" : f"Light_curve_{id}", "xlabel" : "Time (UTC)", "ylabel": "Counts", "mode": "bar", 
             "x": df_grouped["tstart"].astype(str).to_list(),
             "y": df_grouped["counts"].tolist(),
             "y_err": df_grouped["y_err"].tolist(),
@@ -56,13 +59,18 @@ class DL3():
 
 if __name__ == "__main__":
 
-    directory = "/home/antonio/Desktop/DL2/*.txt"
-
-    y_hist = np.zeros(1000)
+    directory = "/data/archive/test_dqpipe_output/DL/DL2/rpg1/*.h5"
 
     for file in glob.glob(directory):
-        spectrum_data = DL3.process_spectrum(file)
-        lc_data = DL3.get_light_curve(file)
+
+
+        start = time()
+        
+        spectrum_data = DL3.process_spectrum(file, "rpg1")
+        lc_data = DL3.get_light_curve(file, "rpg1")
         print(spectrum_data)
         print(lc_data)
-        exit()
+        time_proc = time()
+
+        print(f"File processing took: {round(time_proc-start,5)}")
+        

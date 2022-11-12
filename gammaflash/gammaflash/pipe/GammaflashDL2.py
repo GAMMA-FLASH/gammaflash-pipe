@@ -39,6 +39,9 @@ class GammaflashDL2(DQPipeline):
                     temperatures = None
 
                 eventlist.process_file(filePath, temperatures, outputdir)
+
+                time_proc = time()
+                self.logger.debug(f"DL2 File processing took: {round(time_proc-start,5)}")
     
     def stop(self):
         self.dataSource.stopWatch()

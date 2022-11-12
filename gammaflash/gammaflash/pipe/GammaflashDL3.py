@@ -33,7 +33,7 @@ class GammaflashDL3(DQPipeline):
 
                 #cleaning filename for testing
                 filepath_pathlib = Path(filePath)
-                filename_replace_ext = filepath_pathlib.with_suffix('.txt')
+                filename_replace_ext = filepath_pathlib.with_suffix('.h5')
 
                 self.logger.debug(f"New file extracted from the queue: {filename_replace_ext}. Queue lenght: {self.dataSource.files.qsize()}")
                 self.logger.debug(f"Launching DL3 processing tool")

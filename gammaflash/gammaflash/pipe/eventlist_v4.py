@@ -10,14 +10,15 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt
 from multiprocessing import Pool
+from tqdm import tqdm
 from scipy.signal import find_peaks
-from tables.description import Float32Col
+from tables.description import Float32Col, Float64Col
 
 class GFTable(IsDescription):
     #N_Waveform\tmult\ttstart\tindex_peak\tpeak\tintegral1\tintegral2\tintegral3\thalflife\ttemp
     n_waveform = Float32Col()
     mult = Float32Col()
-    tstart = Float32Col()
+    tstart = Float64Col()
     index_peak = Float32Col()
     peak = Float32Col()
     integral1 = Float32Col()
@@ -103,21 +104,30 @@ class Eventlist:
 
     def process_file(self, filename, temperatures, outdir):
         print("Processing " + filename)
+        
+        start_process = time()
+        time1 = time()
+        
         h5file = open_file(filename, mode="r")
-
+        
+        read_file = time()
+        print(f"Read_file {filename} took: {round(read_file-start_process,5)}")
         group = h5file.get_node("/waveforms")
         
         basename = Path(outdir, os.path.basename(filename))
         tstarts = []
         header = f"N_Waveform\tmult\ttstart\tindex_peak\tpeak\tintegral1\tintegral2\tintegral3\thalflife\ttemp"
-        f = open(f"{Path(basename).with_suffix('.txt')}", "w")
+        f = open(f"{Path(basename).with_suffix('.dl2.txt')}", "w")
         f.write(f"{header}\n")
         dl2_data = []
 
         #print(header)
         shape_data = -1
         lenwf = -1
+        time2 = time()
+        #print(f"breakpoint1 took: {round(time2-time1,5)}")
         for i, data in enumerate(group):
+            init_for =time()
             #print(data._v_attrs._f_list("all"))
             #print(attrs)
             #tstarts.append(tstart)
@@ -132,9 +142,12 @@ class Eventlist:
 
             val = np.max(data[:,shape_data])
             if val > 8192:       
-                y = np.array(data[:,shape_data].shape)     
+                y = np.array(data[:,shape_data].shape)
+                internal_for = time()     
                 for i, val in enumerate(data[:,shape_data]):
                     y[i] = Eventlist.twos_comp_to_int(val)
+                first_internal_for = time
+                print()
             else:
                 y = data[:,shape_data]
 
@@ -151,6 +164,8 @@ class Eventlist:
             deltav = 20
         
             peaks2 = np.copy(peaks)
+            
+            
             #filtraggio picchi
             for v in peaks2:
                 arrcalcMM = arrmov[v] - arrmov[v-deltav:v+deltav]
@@ -159,7 +174,7 @@ class Eventlist:
                 #remove peaks too small or peaks too close to the end of the wf
                 if len(ind[0]) == 0 or v > 16000:
                     peaks = peaks[peaks != v]
-
+            
             #print(f"la waveform num. {i} con peaks {peaks}")
             if len(peaks) == 0:
                 #print(f"{i}\tEMPTY")
@@ -206,7 +221,7 @@ class Eventlist:
                         xr2 = range(len(arrExp))
                         valueE = arrExp[deltav] * np.power(2, xr2 * (-1/(rowsHalf[0])))
                         integralExp = np.sum(valueE)
-
+                        
                         #subtract the exponential decay for pileup
                         if len(peaks) > 1:
                             lenss = v+len(valueE)
@@ -215,20 +230,21 @@ class Eventlist:
                             ss = arrmov[v-deltav:lenss]
                             ss[deltav:lenss] = ss[deltav:lenss] - valueE[0:len(ss[deltav:lenss])]
                             ss[0:deltav] = np.full(len(ss[0:deltav] ), mmean1)
-
+                    
                     except:
                         print(f"EXCEPTION: Peaks non trovati nella waveform {i} del file {filename}")
                         continue
+                    
 
-                    if temperatures is None:
-                        temp = -300
-                    else:
-                        #print(tstart)
+                    
+                    temp = -300
+                    if temperatures is not None and i == 0:
                         query = temperatures.query(f'{tstart} <= Time <= {tstart+30}')
+                        time_query_fine = time()
+
                         if query.empty:
                             temp = -200
                         else:
-
                             temp = np.round(query["Temperature"].mean(), decimals=2)
 
                        #print(temp)
@@ -243,9 +259,14 @@ class Eventlist:
                         dl2_data.append([i, j+1, current_tstart, peaks[j], y[peaks[j]], integral, integralMM, integralExp, rowsHalf[0],temp])
 
                     j = j + 1
+            fine_for = time()
+
 
         h5file.close()
+        start_write = time()
         GFhandler2.write(f"{Path(basename).with_suffix('.dl2.h5')}", dl2_data)
+        fine_write = time()
+        print(f"write hdf5 took {fine_write - start_write}")
         
         f.close()
 
@@ -260,20 +281,31 @@ if __name__ == '__main__':
 
     eventlist = Eventlist()
 
+    outdir = "/data/gammaflash_repos/gammaflash-pipe-develop/gammaflash-pipe/gammaflash/gammaflash/pipe/"
+
+    temp_time = time()
     if args.temperatures is not None and Path(args.temperatures).exists:
         temperatures = eventlist.process_temps_file(args.temperatures)
     else:
         temperatures = None
+
+    temp_time_final = time()
+    print(f"Read temp file took: {round(temp_time_final-temp_time,5)}")
+
 
     if args.filename is None:
         list_dir = glob.glob(f"{args.directory}/*.h5")
         #list_dir = ["wf_runId_00157_configId_00000_2022-06-29T08_25_53.521290.h5", "wf_runId_00162_configId_00000_2022-07-01T12_32_15.124786.h5"]
 
         for filename in list_dir:
-            eventlist.process_file(filename, temperatures)
+            print(filename)
+            process_file_start = time()
+            eventlist.process_file(filename, temperatures, outdir)
+            process_file_end = time()
+            print(f"Process single file took: {round(process_file_end-process_file_start,5)}")
 
     else:
-        eventlist.process_file(args.filename, temperatures)
+        eventlist.process_file(args.filename, temperatures, outdir)
 
     #with Pool(150) as p:
     #    p.map(process_file, list_dir)
