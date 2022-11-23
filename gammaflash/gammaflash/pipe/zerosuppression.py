@@ -122,17 +122,17 @@ def CONVERT(filename, detector, directory, Threshold=20, TFile='WS_temp.csv'):
                     PeakList.append(Peak)
 
                     # Adding row in h5 file
-                    arraysy = h5file.create_carray(group,
-                                                   f"wf_{str(counter_h5).zfill(6)}",
-                                                   atom,
-                                                   shape,
-                                                   f"wf_{counter_h5}",
-                                                   filters=filters)
-                    arraysy._v_attrs.start = START
-                    arraysy._v_attrs.end = END
-                    arraysy._v_attrs.max = max(wf[START:END] * ScalF)
-                    arraysy._v_attrs.integral = sum(wf[dstart:dend]) * ScalF
-                    arraysy._v_attrs.data = wf[dstart:dend] * ScalF
+                    array_sy = h5file.create_carray(group,
+                                                    f"wf_{str(counter_h5).zfill(6)}",
+                                                    atom,
+                                                    shape,
+                                                    f"wf_{counter_h5}",
+                                                    filters=filters)
+                    array_sy._v_attrs.start = START
+                    array_sy._v_attrs.end = END
+                    array_sy._v_attrs.max = max(wf[START:END] * ScalF)
+                    array_sy._v_attrs.integral = sum(wf[dstart:dend]) * ScalF
+                    array_sy._v_attrs.data = wf[dstart:dend] * ScalF
                     counter_h5 = counter_h5 + 1
 
                 START = ni
