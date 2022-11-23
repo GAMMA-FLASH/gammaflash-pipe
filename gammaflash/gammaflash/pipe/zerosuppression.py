@@ -12,6 +12,8 @@ import numpy as np
 import datetime, time, csv
 from joblib import Parallel, delayed
 import argparse
+import tables
+from tables import open_file
 
 DETECTOR = "rpg0"
 # directory = "/data/archive/acquisizione_2022_08_15/rpg0/"
@@ -53,12 +55,13 @@ def CONVERT(filename, detector, directory, Threshold=20, TFile='WS_temp.csv'):
     Sampling = 8
     ToT = 400
     SamplesOT = ToT / Sampling
-    outfile = directory + "/" + Path(filename).name + detector + "_DST.pbz2"
+
+    outfile = r"C:\Users\Ismam\Desktop\test\res.pbz2"  # directory + "/" + Path(filename).name + detector + "_DST.pbz2"
     print(outfile)
     if Path(outfile).is_file():
         return
 
-    outfile_hdf5 = directory + "/" + Path(filename).name + detector + "_DST.hdf5"
+    outfile_hdf5 = r"C:\Users\Ismam\Desktop\test\res.hdf5"  # directory + "/" + Path(filename).name + detector + "_DST.hdf5"
 
     PeakList = []
     print(filename)
@@ -68,6 +71,14 @@ def CONVERT(filename, detector, directory, Threshold=20, TFile='WS_temp.csv'):
     except:
         print("Error :" + filename)
         return
+
+    h5file = open_file(r"C:\Users\Ismam\Desktop\test\test_structure.h5", mode="w", title="Test file")
+    group = h5file.create_group("/", 'waveform', 'Detector information')
+    atom = tables.Int16Atom()
+    shape = (16384, 1)
+    filters = tables.Filters(complevel=5, complib='zlib')
+    counter_h5 = 0
+
     for wff in Wavef:
         data = {}
         for k in f['waveforms'][wff].attrs.keys():
@@ -109,6 +120,21 @@ def CONVERT(filename, detector, directory, Threshold=20, TFile='WS_temp.csv'):
                     Peak["INTEGRAL"] = sum(wf[dstart:dend]) * ScalF
                     Peak["DATA"] = wf[dstart:dend] * ScalF
                     PeakList.append(Peak)
+
+                    # Adding row in h5 file
+                    arraysy = h5file.create_carray(group,
+                                                   f"wf_{str(counter_h5).zfill(6)}",
+                                                   atom,
+                                                   shape,
+                                                   f"wf_{counter_h5}",
+                                                   filters=filters)
+                    arraysy._v_attrs.start = START
+                    arraysy._v_attrs.end = END
+                    arraysy._v_attrs.max = max(wf[START:END] * ScalF)
+                    arraysy._v_attrs.integral = sum(wf[dstart:dend]) * ScalF
+                    arraysy._v_attrs.data = wf[dstart:dend] * ScalF
+                    counter_h5 = counter_h5 + 1
+
                 START = ni
                 END = ni
             else:
@@ -117,8 +143,7 @@ def CONVERT(filename, detector, directory, Threshold=20, TFile='WS_temp.csv'):
     with bz2.BZ2File(outfile, 'w') as fp:
         cPickle.dump(PeakList, fp)
 
-    with h5py.File(outfile_hdf5, "w") as data_file:
-        data_file.create_dataset("waveforms", data=PeakList)
+    h5file.close()
 
     return outfile
 

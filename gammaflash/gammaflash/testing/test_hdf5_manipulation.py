@@ -1,4 +1,5 @@
 import h5py
+import tables
 
 
 # Method to read a file in hdf5, it prints their first level keys and values
@@ -48,5 +49,5 @@ def write(filename):
 
 
 # Examples
-write("filehdf5test.hdf5")
-read("filehdf5test.hdf5")
+"""write("filehdf5test.hdf5")
+read("filehdf5test.hdf5")"""
