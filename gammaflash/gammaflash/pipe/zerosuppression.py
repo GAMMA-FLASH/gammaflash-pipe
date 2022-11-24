@@ -56,12 +56,15 @@ def CONVERT(filename, detector, directory, Threshold=20, TFile='WS_temp.csv'):
     ToT = 400
     SamplesOT = ToT / Sampling
 
-    outfile = r"C:\Users\Ismam\Desktop\test\res.pbz2"  # directory + "/" + Path(filename).name + detector + "_DST.pbz2"
+    # r"C:\Users\Ismam\Desktop\test\res.pbz2"
+    outfile = directory + "/" + Path(filename).name + detector + "_DST.pbz2"
     print(outfile)
     if Path(outfile).is_file():
         return
 
-    outfile_hdf5 = r"C:\Users\Ismam\Desktop\test\res.hdf5"  # directory + "/" + Path(filename).name + detector + "_DST.hdf5"
+    r"C:\Users\Ismam\Desktop\test\test_structure.h5"
+    outfile_hdf5 = directory + "/" + Path(filename).name + detector + "_DST.h5"
+    print(outfile_hdf5)
 
     PeakList = []
     print(filename)
@@ -72,7 +75,8 @@ def CONVERT(filename, detector, directory, Threshold=20, TFile='WS_temp.csv'):
         print("Error :" + filename)
         return
 
-    h5file = open_file(r"C:\Users\Ismam\Desktop\test\test_structure.h5", mode="w", title="Test file")
+    # r"C:\Users\Ismam\Desktop\test\test_structure.h5"
+    h5file = open_file(outfile_hdf5, mode="w", title="Test file")
     group = h5file.create_group("/", 'waveform', 'Detector information')
     atom = tables.Int16Atom()
     shape = (16384, 1)
