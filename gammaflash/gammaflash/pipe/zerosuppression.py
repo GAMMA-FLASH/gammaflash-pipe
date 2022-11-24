@@ -62,7 +62,7 @@ def CONVERT(filename, detector, directory, Threshold=20, TFile='WS_temp.csv'):
     if Path(outfile).is_file():
         return
 
-    r"C:\Users\Ismam\Desktop\test\test_structure.h5"
+    # r"C:\Users\Ismam\Desktop\test\test_structure.h5"
     outfile_hdf5 = directory + "/" + Path(filename).name + detector + "_DST.h5"
     print(outfile_hdf5)
 
