@@ -12,12 +12,13 @@ import matplotlib.pyplot as plt
 from multiprocessing import Pool
 from scipy.signal import find_peaks
 from tables.description import Float32Col
+from tables.description import Float64Col
 
 class GFTable(IsDescription):
     #N_Waveform\tmult\ttstart\tindex_peak\tpeak\tintegral1\tintegral2\tintegral3\thalflife\ttemp
     n_waveform = Float32Col()
     mult = Float32Col()
-    tstart = Float32Col()
+    tstart = Float64Col()
     index_peak = Float32Col()
     peak = Float32Col()
     integral1 = Float32Col()
