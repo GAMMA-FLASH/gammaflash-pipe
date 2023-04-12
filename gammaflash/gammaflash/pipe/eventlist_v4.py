@@ -12,12 +12,13 @@ import matplotlib.pyplot as plt
 from multiprocessing import Pool
 from scipy.signal import find_peaks
 from tables.description import Float32Col
+from tables.description import Float64Col
 
 class GFTable(IsDescription):
     #N_Waveform\tmult\ttstart\tindex_peak\tpeak\tintegral1\tintegral2\tintegral3\thalflife\ttemp
     n_waveform = Float32Col()
     mult = Float32Col()
-    tstart = Float32Col()
+    tstart = Float64Col()
     index_peak = Float32Col()
     peak = Float32Col()
     integral1 = Float32Col()
@@ -95,7 +96,7 @@ class Eventlist:
         df = pd.read_csv(filename, names=["Time", "Temperature"], sep=',', on_bad_lines="skip")
         df = df.dropna()
         #reconvert column in float because pandas use strings due to the error messages
-        df = df.astype({"Time":np.float32, "Temperature":np.float32})
+        df = df.astype({"Time":np.float64, "Temperature":np.float32})
 
         return df
         
@@ -110,7 +111,7 @@ class Eventlist:
         basename = Path(outdir, os.path.basename(filename))
         tstarts = []
         header = f"N_Waveform\tmult\ttstart\tindex_peak\tpeak\tintegral1\tintegral2\tintegral3\thalflife\ttemp"
-        f = open(f"{Path(basename).with_suffix('.txt')}", "w")
+        f = open(f"{Path(basename).with_suffix('.dl2.txt')}", "w")
         f.write(f"{header}\n")
         dl2_data = []
 
