@@ -12,12 +12,13 @@ import matplotlib.pyplot as plt
 from multiprocessing import Pool
 from scipy.signal import find_peaks
 from tables.description import Float32Col
+from tables.description import Float64Col
 
 class GFTable(IsDescription):
     #N_Waveform\tmult\ttstart\tindex_peak\tpeak\tintegral1\tintegral2\tintegral3\thalflife\ttemp
     n_waveform = Float32Col()
     mult = Float32Col()
-    tstart = Float32Col()
+    tstart = Float64Col()
     index_peak = Float32Col()
     peak = Float32Col()
     integral1 = Float32Col()
@@ -95,7 +96,7 @@ class Eventlist:
         df = pd.read_csv(filename, names=["Time", "Temperature"], sep=',', on_bad_lines="skip")
         df = df.dropna()
         #reconvert column in float because pandas use strings due to the error messages
-        df = df.astype({"Time":np.float32, "Temperature":np.float32})
+        df = df.astype({"Time":np.float64, "Temperature":np.float32})
 
         return df
         
@@ -110,7 +111,7 @@ class Eventlist:
         basename = Path(outdir, os.path.basename(filename))
         tstarts = []
         header = f"N_Waveform\tmult\ttstart\tindex_peak\tpeak\tintegral1\tintegral2\tintegral3\thalflife\ttemp"
-        f = open(f"{Path(basename).with_suffix('.txt')}", "w")
+        f = open(f"{Path(basename).with_suffix('.dl2.txt')}", "w")
         f.write(f"{header}\n")
         dl2_data = []
 
@@ -255,6 +256,7 @@ if __name__ == '__main__':
     parser.add_argument('-d', '--directory', type=str, help="input directory", required=True)
     parser.add_argument('-t', '--temperatures', type=str, help="temperature file", required=False)
     parser.add_argument('-f', '--filename', type=str, help="h5 DL0 filename", required=False)
+    parser.add_argument('-o', '--outdir', type=str, help="output directory", required=True)
 
     args = parser.parse_args()
 
@@ -270,10 +272,10 @@ if __name__ == '__main__':
         #list_dir = ["wf_runId_00157_configId_00000_2022-06-29T08_25_53.521290.h5", "wf_runId_00162_configId_00000_2022-07-01T12_32_15.124786.h5"]
 
         for filename in list_dir:
-            eventlist.process_file(filename, temperatures)
+            eventlist.process_file(filename, temperatures, args.outdir)
 
     else:
-        eventlist.process_file(args.filename, temperatures)
+        eventlist.process_file(args.filename, temperatures, args.outdir)
 
     #with Pool(150) as p:
     #    p.map(process_file, list_dir)
