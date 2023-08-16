@@ -100,11 +100,22 @@ class Eventlist:
 
         return df
         
+    def get_temperature(self, tstart):
+        if self.temperatures is None:
+            temp = -300
+        else:
+            #print(tstart)
+            query = self.temperatures.query(f'{tstart} <= Time <= {tstart+30}')
+            if query.empty:
+                temp = -400
+            else:
+                temp = np.round(query["Temperature"].mean(), decimals=2)
+        return temp
 
-
-    def process_file(self, filename, temperatures, outdir):
+    def process_file(self, filename, temperatures, outdir, log = False, startEvent=0, endEvent=-1):
         print("Processing " + filename)
         h5file = open_file(filename, mode="r")
+        self.temperatures = temperatures
 
         group = h5file.get_node("/waveforms")
         
@@ -119,6 +130,11 @@ class Eventlist:
         shape_data = -1
         lenwf = -1
         for i, data in enumerate(group):
+            if i < int(startEvent):
+                continue
+            if endEvent > 0:
+                if i > int(endEvent):
+                    break
             #print(data._v_attrs._f_list("all"))
             #print(attrs)
             #tstarts.append(tstart)
@@ -148,6 +164,14 @@ class Eventlist:
             mmean2 = mmean1 * 2 * 0.9 
 
             peaks, values = find_peaks(arrmov , height=mmean2, width=15, distance=25)
+
+            if log == True:
+                print(f"Waveform num. {i} ##############################")
+                print(f"la waveform num. {i} ha i seguenti peaks: {peaks} e mean value {mmean1} and stdev {stdev1}")
+                #Print the original waveform
+                #plt.figure()
+                #plt.plot(range(len(arr)),arr, color='g')
+                #plt.plot(range(len(arrmov)),arrmov)
             
             deltav = 20
         
@@ -159,12 +183,35 @@ class Eventlist:
                 ind = np.where(arrcalcMM[:] > 80)
                 #remove peaks too small or peaks too close to the end of the wf
                 if len(ind[0]) == 0 or v > 16000:
+                #if  v > 16000:
+                    if log == True:
+                        print("delete peak")
+                        print(peaks)
+                        plt.figure()
+                        plt.plot(range(len(arr)),arr, color='g')
+                        plt.plot(range(len(arrmov)),arrmov)
+    
+                        for v in peaks:
+                            plt.axvline(x = v, color = 'r') 
+
+                        plt.show()
+                        
                     peaks = peaks[peaks != v]
+                        
+                        
 
             #print(f"la waveform num. {i} con peaks {peaks}")
             if len(peaks) == 0:
-                #print(f"{i}\tEMPTY")
-                f.write(f"{i}\tEMPTY\n")
+                current_tstart = tstart
+                temp = self.get_temperature(tstart)
+                f.write(f"{i}\t{0}\t{tstart}\t{-1}\t{-1}\t{-1}\t{-1}\t{-1}\t{-1}\t{temp:.2f}\n")
+                dl2_data.append([i, 0, tstart, -1, -1, -1, -1, -1, -1, temp])
+                if log == True:
+                    print(f"{i}\tEMPTY")
+                    plt.figure()
+                    plt.plot(range(len(arr)),arr, color='g')
+                    plt.plot(range(len(arrmov)),arrmov)
+                    plt.show()
             else:
 
                 j=0
@@ -217,22 +264,39 @@ class Eventlist:
                             ss[deltav:lenss] = ss[deltav:lenss] - valueE[0:len(ss[deltav:lenss])]
                             ss[0:deltav] = np.full(len(ss[0:deltav] ), mmean1)
 
+                        if log == True:
+                            if j == 0:
+                                plt.figure()
+                                plt.plot(range(len(arr)),arr, color='g')
+                                plt.plot(range(len(arrmov)),arrmov)
+            
+                                for v in peaks:
+                                    plt.axvline(x = v, color = 'r') 
+    
+                                plt.show()
+                            
+                            plt.figure()
+                            plt.plot(range(len(arrSub)),arrSub)
+                            plt.plot(range(len(arrSubMM)),arrSubMM, color='black')
+                            plt.axvline(x = deltav, color = 'r')
+                            plt.plot(xr, valueE, color = 'r')
+                            
+                            print(f"integral {integral}")
+                            print(f"integralMM {integralMM}")
+                            print(f"integralEXP {integralExp}")
+                        
+                            if len(peaks) > 1:
+                                plt.plot(range(len(ss)),ss-mmean1)
+    
+                            plt.show()
+
                     except:
                         print(f"EXCEPTION: Peaks non trovati nella waveform {i} del file {filename}")
                         continue
 
-                    if temperatures is None:
-                        temp = -300
-                    else:
-                        #print(tstart)
-                        query = temperatures.query(f'{tstart} <= Time <= {tstart+30}')
-                        if query.empty:
-                            temp = -200
-                        else:
 
-                            temp = np.round(query["Temperature"].mean(), decimals=2)
+                    temp = self.get_temperature(tstart)
 
-                       #print(temp)
 
                     if len(peaks) == 1:
                         current_tstart = tstart
