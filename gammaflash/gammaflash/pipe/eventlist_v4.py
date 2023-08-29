@@ -71,10 +71,10 @@ class GFhandler2:
 
         h5file.close()
 
-        fileOk = f"{filename}.ok"
+        #fileOk = f"{filename}.ok"
 
-        with open(fileOk, "w") as fok:
-            fok.write("")
+        #with open(fileOk, "w") as fok:
+        #    fok.write("")
 
         #self.logger.debug(f" Wrote {filename} and '.ok' file. Took {round(time()-start,5)} sec")
 
