@@ -112,8 +112,14 @@ class Eventlist:
                 temp = np.round(query["Temperature"].mean(), decimals=2)
         return temp
 
+    def create_directory(self, directory_path):
+        if not os.path.exists(directory_path):
+            os.makedirs(directory_path)
+            #print(f"La directory '{directory_path}' è stata creata.")
+
     def process_file(self, filename, temperatures, outdir, log = False, startEvent=0, endEvent=-1):
         print("Processing " + filename)
+        self.create_directory(outdir)
         h5file = open_file(filename, mode="r")
         self.temperatures = temperatures
 
@@ -295,15 +301,15 @@ class Eventlist:
                         continue
 
 
-                    temp = self.get_temperature(tstart)
+                    temp = float(self.get_temperature(tstart))
 
 
                     if len(peaks) == 1:
-                        current_tstart = tstart
+                        current_tstart = float(tstart)
                         f.write(f"{i}\t{0}\t{tstart}\t{peaks[0]}\t{y[peaks[0]]}\t{integral}\t{integralMM}\t{integralExp}\t{rowsHalf[0]}\t{temp:.2f}\n")
-                        dl2_data.append([i, 0, tstart, peaks[0], y[peaks[0]], integral, integralMM, integralExp, rowsHalf[0],temp])
+                        dl2_data.append([i, 0, current_tstart, peaks[0], y[peaks[0]], integral, integralMM, integralExp, rowsHalf[0],temp])
                     else:
-                        current_tstart = ((peaks[j] - peaks[0]) * 8e-9) + tstart
+                        current_tstart = float(((peaks[j] - peaks[0]) * 8e-9) + tstart)
                         f.write(f"{i}\t{j+1}\t{current_tstart}\t{peaks[j]}\t{y[peaks[j]]}\t{integral}\t{integralMM}\t{integralExp}\t{rowsHalf[0]}\t{temp:.2f}\n")
                         dl2_data.append([i, j+1, current_tstart, peaks[j], y[peaks[j]], integral, integralMM, integralExp, rowsHalf[0],temp])
 
