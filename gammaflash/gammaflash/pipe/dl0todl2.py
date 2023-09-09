@@ -4,13 +4,12 @@ import argparse
 
 def main():
     parser = argparse.ArgumentParser(description="Process HDF5 files.")
-    parser.add_argument("rpgname", help="RPG name")
-    parser.add_argument("thr", help="Threshold value")
+    parser.add_argument("inputdir", help="inputdir")
     args = parser.parse_args()
 
-    rpgname = args.rpgname
-    thr = args.thr
-    directory = "/archive/DL0/" + rpgname + "/" + thr
+    inputdir = args.inputdir
+    directory = inputdir
+    #/data02/gammaflash/DL0/acquisizione_2022_08_03/rpg0
     outputdir = directory.replace("DL0", "DL2")
 
     # Assicurati di aver definito e importato il modulo eventlist correttamente
